@@ -72,7 +72,7 @@ public class VimeoAltActivity extends ActionBarActivity {
       // Navigate everywhere you want, this classes have only been tested on YouTube's mobile site
       String id = getIntent().getStringExtra("tag");
       if (id != null) {
-        webView.loadUrl("http://player.vimeo.com/video/" + id);
+        webView.loadUrl("http://player.vimeo.com/video/" + id + "?badge=0&byline=0&portrait=0&title=0");
       }
     }
 
@@ -94,6 +94,24 @@ public class VimeoAltActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+      // Notify the VideoEnabledWebChromeClient, and handle it ourselves if it doesn't handle it
+      if (!webChromeClient.onBackPressed())
+      {
+        if (webView.canGoBack())
+        {
+          webView.goBack();
+        }
+        else
+        {
+          // Close app (presumably)
+          super.onBackPressed();
+        }
+      }
     }
 
 }
