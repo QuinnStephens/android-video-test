@@ -1,43 +1,54 @@
 package com.quinnstephens.test.youtubevimeotest.app;
 
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
-public class YouTubeActivity extends ActionBarActivity {
+import java.util.List;
 
-    HTML5WebView mWebView;
+
+public class YouTubeActivity extends VideoActivity {
+
+  private static final int REQ_START_STANDALONE_PLAYER = 1;
+  private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video);
+      super.onCreate(savedInstanceState);
 
-        Intent intent = getIntent();
+      Intent intent = null;
 
-        String id = intent.getStringExtra("tag");
-        if (id != null) {
-            mWebView = new HTML5WebView(this);
+      if (id != null) {
+//        webView.loadData("<html><body><iframe width=\"100%\" height=\"100%\" src=\"http://www.youtube.com/embed/" + id + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>", "text/html", "UTF-8");
+         intent = YouTubeStandalonePlayer.createVideoIntent(this, DeveloperKey.DEVELOPER_KEY, id, 0, true, false);
+      }
 
-            if (savedInstanceState != null) {
-                mWebView.restoreState(savedInstanceState);
-            } else {
-                mWebView.loadUrl("http://youtube.com/" + id);
-            }
-
-            setContentView(mWebView.getLayout());
+      if (intent != null) {
+        if (canResolveIntent(intent)) {
+          startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
+        } else {
+          // Could not resolve the intent - must need to install or update the YouTube API service.
+          YouTubeInitializationResult.SERVICE_MISSING
+                  .getErrorDialog(this, REQ_RESOLVE_SERVICE_MISSING).show();
         }
+      }
     }
 
+    private boolean canResolveIntent(Intent intent) {
+      List<ResolveInfo> resolveInfo = getPackageManager().queryIntentActivities(intent, 0);
+      return resolveInfo != null && !resolveInfo.isEmpty();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.video, menu);
+        getMenuInflater().inflate(R.menu.vimeo_alt, menu);
         return true;
     }
 
@@ -51,6 +62,11 @@ public class YouTubeActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+      super.onBackPressed();
     }
 
 }

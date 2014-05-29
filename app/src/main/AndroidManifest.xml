@@ -4,12 +4,12 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="keyboardHidden|orientation"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
         android:screenOrientation="landscape"
-        android:configChanges="keyboardHidden|orientation">
+        android:theme="@style/AppTheme" >
         <activity
             android:name="com.quinnstephens.test.youtubevimeotest.app.MainActivity"
             android:label="@string/app_name" >
@@ -20,15 +20,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.quinnstephens.test.youtubevimeotest.app.VimeoActivity"
+            android:name=".VimeoActivityAlt"
             android:label="@string/title_activity_video" >
         </activity>
         <activity
             android:name="com.quinnstephens.test.youtubevimeotest.app.YouTubeActivity"
             android:label="YouTube Activity" />
         <activity
-            android:name="com.quinnstephens.test.youtubevimeotest.app.VimeoAltActivity"
+            android:name=".VimeoActivity"
             android:label="@string/title_activity_vimeo_alt" >
+        </activity>
+        <activity
+            android:name="com.quinnstephens.test.youtubevimeotest.app.VideoActivity"
+            android:label="@string/title_activity_video" >
+        </activity>
+        <activity
+            android:name="com.quinnstephens.test.youtubevimeotest.app.StandalonePlayerDemoActivity"
+            android:label="StandalonePlayerActivity">
         </activity>
     </application>
 

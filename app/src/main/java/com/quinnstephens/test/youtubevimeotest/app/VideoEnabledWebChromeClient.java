@@ -266,12 +266,14 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements OnPr
    * This must be called from the Activity's onBackPressed(), and if it returns false, the activity itself should handle it. Otherwise don't do anything.
    * @return Returns true if the event was handled, and false if was not (video view is not visible)
    */
+
   public boolean onBackPressed()
   {
     if (isVideoFullscreen)
     {
       onHideCustomView();
-      return true;
+//      return true;
+      return false;
     }
     else
     {
