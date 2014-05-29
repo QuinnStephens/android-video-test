@@ -1,107 +1,78 @@
 package com.quinnstephens.test.youtubevimeotest.app;
 
-import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
+import android.view.WindowManager;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.VideoView;
 
 
 public class VimeoAltActivity extends ActionBarActivity {
+
+    private VideoEnabledWebView webView;
+    private VideoEnabledWebChromeClient webChromeClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vimeo_alt);
 
-      WebView webView = (WebView) findViewById(R.id.vimeoWebView);
-      WebSettings webSettings = webView.getSettings();
-      webSettings.setPluginState(WebSettings.PluginState.ON);
-      webSettings.setJavaScriptEnabled(true);
-      webSettings.setUseWideViewPort(true);
-      webSettings.setLoadWithOverviewMode(true);
-      webView.setWebChromeClient(new chromeClient());
-      webView.setWebViewClient(new WebViewClient());
+      // Save the web view
+      webView = (VideoEnabledWebView) findViewById(R.id.webView);
 
-      Intent intent = getIntent();
-      String id = intent.getStringExtra("tag");
+      // Initialize the VideoEnabledWebChromeClient and set event handlers
+      View nonVideoLayout = findViewById(R.id.nonVideoLayout); // Your own view, read class comments
+      ViewGroup videoLayout = (ViewGroup) findViewById(R.id.videoLayout); // Your own view, read class comments
+      View loadingView = getLayoutInflater().inflate(R.layout.video_loading_progress, null); // Your own view, read class comments
+      webChromeClient = new VideoEnabledWebChromeClient(nonVideoLayout, videoLayout, loadingView, webView) // See all available constructors...
+      {
+        // Subscribe to standard events, such as onProgressChanged()...
+        @Override
+        public void onProgressChanged(WebView view, int progress)
+        {
+          // Your code...
+        }
+      };
+      webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback()
+      {
+        @Override
+        public void toggledFullscreen(boolean fullscreen)
+        {
+          // Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
+          if (fullscreen)
+          {
+            WindowManager.LayoutParams attrs = getWindow().getAttributes();
+            attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+            getWindow().setAttributes(attrs);
+            if (android.os.Build.VERSION.SDK_INT >= 14)
+            {
+              getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+            }
+          }
+          else
+          {
+            WindowManager.LayoutParams attrs = getWindow().getAttributes();
+            attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+            getWindow().setAttributes(attrs);
+            if (android.os.Build.VERSION.SDK_INT >= 14)
+            {
+              getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            }
+          }
+
+        }
+      });
+      webView.setWebChromeClient(webChromeClient);
+
+      // Navigate everywhere you want, this classes have only been tested on YouTube's mobile site
+      String id = getIntent().getStringExtra("tag");
       if (id != null) {
         webView.loadUrl("http://player.vimeo.com/video/" + id);
-      }
-    }
-
-    public class chromeClient extends WebChromeClient implements MediaPlayer.OnCompletionListener,
-            MediaPlayer.OnErrorListener {
-      private WebView wv;
-      private VideoView mVideoView;
-      private LinearLayout mContentView;
-      private FrameLayout mCustomViewContainer;
-      private WebChromeClient.CustomViewCallback mCustomViewCallback;
-      FrameLayout.LayoutParams COVER_SCREEN_GRAVITY_CENTER = new
-              FrameLayout.LayoutParams(
-              ViewGroup.LayoutParams.WRAP_CONTENT,
-              ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-
-      @Override
-      public void onShowCustomView(View view, CustomViewCallback callback) {
-        if (view instanceof FrameLayout) {
-          wv = (WebView)findViewById(R.id.vimeoWebView);
-          mCustomViewContainer = (FrameLayout) view;
-          mCustomViewCallback = callback;
-          mContentView = (LinearLayout)findViewById(R.id.videoContainer);
-
-          if (mCustomViewContainer.getFocusedChild() instanceof VideoView) {
-            mVideoView = (VideoView) mCustomViewContainer.getFocusedChild();
-            // frame.removeView(video);
-            mContentView.setVisibility(View.GONE);
-            mCustomViewContainer.setVisibility(View.VISIBLE);
-            setContentView(mCustomViewContainer);
-            mVideoView.setOnCompletionListener(this);
-            mVideoView.setOnErrorListener(this);
-            mVideoView.start();
-
-          }
-        }
-      }
-
-      public void onHideCustomView() {
-        if (mVideoView == null){
-          return;
-        }else{
-          // Hide the custom view.
-          mVideoView.setVisibility(View.GONE);
-          // Remove the custom view from its container.
-          mCustomViewContainer.removeView(mVideoView);
-          mVideoView = null;
-          mCustomViewContainer.setVisibility(View.GONE);
-          mCustomViewCallback.onCustomViewHidden();
-          // Show the content view.
-          mContentView.setVisibility(View.VISIBLE);
-        }
-      }
-
-
-      public void onCompletion(MediaPlayer mp) {
-        mp.stop();
-        mCustomViewContainer.setVisibility(View.GONE);
-        onHideCustomView();
-        setContentView(mContentView);
-      }
-
-      public boolean onError(MediaPlayer arg0, int arg1, int arg2) {
-        setContentView(mContentView);
-        return true;
       }
     }
 

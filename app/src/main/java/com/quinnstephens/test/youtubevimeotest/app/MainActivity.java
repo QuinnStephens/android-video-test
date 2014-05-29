@@ -20,13 +20,13 @@ public class MainActivity extends ActionBarActivity {
         triggerActivity(youTubeLink, YouTubeActivity.class);
 
         LinearLayout vimeoLink = (LinearLayout) findViewById(R.id.vimeolink);
-        triggerActivity(vimeoLink, VimeoActivity.class);
+        triggerActivity(vimeoLink, VimeoAltActivity.class);
 
         LinearLayout youTubeLink2 = (LinearLayout) findViewById(R.id.youtubelink2);
         triggerActivity(youTubeLink2, YouTubeActivity.class);
 
         LinearLayout vimeoLink2 = (LinearLayout) findViewById(R.id.vimeolink2);
-        triggerActivity(vimeoLink2, VimeoActivity.class);
+        triggerActivity(vimeoLink2, VimeoAltActivity.class);
     }
 
 

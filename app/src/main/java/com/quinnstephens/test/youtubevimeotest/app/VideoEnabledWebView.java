@@ -8,8 +8,6 @@ import android.util.AttributeSet;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.quinnstephens.test.youtubevimeotest.app.VideoEnabledWebChromeClient;
-
 import java.util.Map;
 
 /**
