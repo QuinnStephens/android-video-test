@@ -1,7 +1,7 @@
 package com.quinnstephens.test.youtubevimeotest.app;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,9 +32,12 @@ public class VideoActivity extends ActionBarActivity {
     {
       // Subscribe to standard events, such as onProgressChanged()...
       @Override
-      public void onProgressChanged(WebView view, int progress)
-      {
-        // Your code...
+      public void onProgressChanged(WebView view, int progress) {
+        if (progress == 100) {
+          // This only plays within the chrome. Hmm...
+          //webView.loadUrl("javascript:(function() { document.getElementsByTagName('video')[0].play(); })()");
+
+        }
       }
     };
     webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback()

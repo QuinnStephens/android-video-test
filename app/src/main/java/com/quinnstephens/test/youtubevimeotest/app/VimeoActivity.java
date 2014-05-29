@@ -14,11 +14,13 @@ public class VimeoActivity extends VideoActivity {
       if (id != null) {
         webView.loadUrl("http://player.vimeo.com/video/" + id + "?badge=0&byline=0&portrait=0&title=0");
       }
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.vimeo_alt, menu);
         return true;

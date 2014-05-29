@@ -24,8 +24,7 @@ public class YouTubeActivity extends VideoActivity {
       Intent intent = null;
 
       if (id != null) {
-//        webView.loadData("<html><body><iframe width=\"100%\" height=\"100%\" src=\"http://www.youtube.com/embed/" + id + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>", "text/html", "UTF-8");
-         intent = YouTubeStandalonePlayer.createVideoIntent(this, DeveloperKey.DEVELOPER_KEY, id, 0, true, false);
+         intent = YouTubeStandalonePlayer.createVideoIntent(this, DeveloperKey.DEVELOPER_KEY, id + "a", 200, false, false);
       }
 
       if (intent != null) {

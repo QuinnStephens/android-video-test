@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="4">
+            android:weightSum="2">
 
     <LinearLayout
         android:id="@+id/youtubelink"
@@ -21,16 +21,18 @@
         android:orientation="vertical"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_margin="64dp"
-        android:tag="HYG7qBpXBEc">
+        android:layout_margin="12dp"
+        android:tag="rRqKYXcL-2U">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:src="@drawable/box"/>
+            android:layout_height="wrap_content"
+            android:src="@drawable/nfl"
+            android:padding="12dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="YouTube"/>
 
         </LinearLayout>
@@ -40,56 +42,23 @@
         android:orientation="vertical"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_margin="64dp"
-        android:tag="14404538">
+        android:layout_margin="12dp"
+        android:tag="65862097">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:src="@drawable/box"/>
+            android:layout_height="wrap_content"
+            android:src="@drawable/nfl2"
+            android:padding="12dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Vimeo"/>
 
 
         </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/youtubelink2"
-        android:layout_width="0dp"
-        android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_margin="64dp"
-        android:tag="tReXtRiW7dI">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:src="@drawable/dash"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="YouTube"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/vimeolink2"
-        android:layout_width="0dp"
-        android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_margin="64dp"
-        android:tag="28127806">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:src="@drawable/dash"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Vimeo"/>
-        </LinearLayout>
 
 
 </LinearLayout>
