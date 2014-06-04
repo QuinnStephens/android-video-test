@@ -28,7 +28,7 @@ public class VideoActivity extends ActionBarActivity {
     View nonVideoLayout = findViewById(R.id.nonVideoLayout); // Your own view, read class comments
     ViewGroup videoLayout = (ViewGroup) findViewById(R.id.videoLayout); // Your own view, read class comments
     View loadingView = getLayoutInflater().inflate(R.layout.video_loading_progress, null); // Your own view, read class comments
-    webChromeClient = new VideoEnabledWebChromeClient(nonVideoLayout, videoLayout, loadingView, webView) // See all available constructors...
+    webChromeClient = new VideoEnabledWebChromeClient(this, nonVideoLayout, videoLayout, loadingView, webView) // See all available constructors...
     {
       // Subscribe to standard events, such as onProgressChanged()...
       @Override
@@ -96,5 +96,4 @@ public class VideoActivity extends ActionBarActivity {
       }
       return super.onOptionsItemSelected(item);
   }
-
 }

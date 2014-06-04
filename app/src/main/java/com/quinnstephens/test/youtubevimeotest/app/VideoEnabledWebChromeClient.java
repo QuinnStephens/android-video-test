@@ -1,5 +1,6 @@
 package com.quinnstephens.test.youtubevimeotest.app;
 
+import android.app.Activity;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
@@ -35,6 +36,7 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements OnPr
     public void toggledFullscreen(boolean fullscreen);
   }
 
+  private Activity parentActivity;
   private View activityNonVideoView;
   private ViewGroup activityVideoView;
   private View loadingView;
@@ -61,8 +63,9 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements OnPr
    * @param activityVideoView A ViewGroup in the activity's layout that will display the video. Typically you would like this to fill the whole layout.
    */
   @SuppressWarnings("unused")
-  public VideoEnabledWebChromeClient(View activityNonVideoView, ViewGroup activityVideoView)
+  public VideoEnabledWebChromeClient(Activity parentActivity, View activityNonVideoView, ViewGroup activityVideoView)
   {
+    this.parentActivity = parentActivity;
     this.activityNonVideoView = activityNonVideoView;
     this.activityVideoView = activityVideoView;
     this.loadingView = null;
@@ -77,8 +80,9 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements OnPr
    * @param loadingView A View to be shown while the video is loading (typically only used in API level <11). Must be already inflated and without a parent view.
    */
   @SuppressWarnings("unused")
-  public VideoEnabledWebChromeClient(View activityNonVideoView, ViewGroup activityVideoView, View loadingView)
+  public VideoEnabledWebChromeClient(Activity parentActivity, View activityNonVideoView, ViewGroup activityVideoView, View loadingView)
   {
+    this.parentActivity = parentActivity;
     this.activityNonVideoView = activityNonVideoView;
     this.activityVideoView = activityVideoView;
     this.loadingView = loadingView;
@@ -94,8 +98,9 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements OnPr
    * @param webView The owner VideoEnabledWebView. Passing it will enable the VideoEnabledWebChromeClient to detect the HTML5 video ended event and exit full-screen.
    * Note: The web page must only contain one video tag in order for the HTML5 video ended event to work. This could be improved if needed (see Javascript code).
    */
-  public VideoEnabledWebChromeClient(View activityNonVideoView, ViewGroup activityVideoView, View loadingView, VideoEnabledWebView webView)
+  public VideoEnabledWebChromeClient(Activity parentActivity, View activityNonVideoView, ViewGroup activityVideoView, View loadingView, VideoEnabledWebView webView)
   {
+    this.parentActivity = parentActivity;
     this.activityNonVideoView = activityNonVideoView;
     this.activityVideoView = activityVideoView;
     this.loadingView = loadingView;
@@ -176,7 +181,7 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements OnPr
             js += "_ytrp_html5_video.addEventListener('ended', _ytrp_html5_video_ended);";
           }
           js += "}";
-          webView.loadUrl(js);
+          //webView.loadUrl(js);
         }
       }
 
@@ -224,6 +229,9 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements OnPr
         toggledFullscreenCallback.toggledFullscreen(false);
       }
     }
+
+    webView.destroy();
+    parentActivity.finish();
   }
 
   @Override
