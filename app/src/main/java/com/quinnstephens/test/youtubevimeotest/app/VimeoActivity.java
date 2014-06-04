@@ -3,19 +3,19 @@ package com.quinnstephens.test.youtubevimeotest.app;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 
 public class VimeoActivity extends VideoActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+      this.requestWindowFeature(Window.FEATURE_NO_TITLE);
       super.onCreate(savedInstanceState);
 
       if (id != null) {
         webView.loadUrl("http://player.vimeo.com/video/" + id + "?badge=0&byline=0&portrait=0&title=0");
       }
-
-
     }
 
     @Override
